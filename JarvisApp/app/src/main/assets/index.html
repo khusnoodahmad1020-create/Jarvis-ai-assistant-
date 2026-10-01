@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JARVIS - Voice Assistant</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .container { width: 100%; max-width: 400px; padding: 20px; }
+        .jarvis-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .header h1 { font-size: 2.2rem; font-weight: 300; letter-spacing: 2px; }
+        .header h1 span { font-weight: 700; color: #22c55e; }
+        .status { font-size: 0.9rem; opacity: 0.7; margin-top: 10px; }
+        .voice-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+        }
+        .voice-circle.listening { animation: pulse 1.5s infinite; background: rgba(34, 197, 94, 0.4); }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px #22c55e; }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px #22c55e; }
+            100% { transform: scale(1); box-shadow: 0 0 20px #22c55e; }
+        }
+        .display-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+            min-height: 80px;
+        }
+        .label { font-size: 0.7rem; text-transform: uppercase; color: #64748b; margin-bottom: 5px; }
+        #response { color: #22c55e; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="jarvis-card">
+            <div class="header">
+                <h1>JARVIS <span>AI</span></h1>
+                <div class="status" id="status">बोलने के लिए टैप करें</div>
+            </div>
+
+            <div class="voice-circle" id="voiceCircle" onclick="jarvis.toggleListening()">
+                <div id="micIcon" style="font-size: 3rem;">🎤</div>
+            </div>
+
+            <div class="display-box">
+                <div class="label">आप:</div>
+                <div id="transcript">शुरू करने के लिए माइक दबाएं...</div>
+            </div>
+
+            <div class="display-box">
+                <div class="label">JARVIS:</div>
+                <div id="response">सिस्टम तैयार है, सर।</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class JarvisAssistant {
+            constructor() {
+                this.isListening = false;
+                this.language = 'hi-IN';
+                this.recognition = null;
+                this.setupRecognition();
+                this.updateAndroidLanguage();
+            }
+
+            setupRecognition() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) return;
+                
+                this.recognition = new SpeechRecognition();
+                this.recognition.continuous = false;
+                this.recognition.interimResults = true;
+                this.recognition.lang = this.language;
+
+                this.recognition.onstart = () => {
+                    this.isListening = true;
+                    this.updateUI('listening');
+                };
+
+                this.recognition.onend = () => {
+                    this.isListening = false;
+                    this.updateUI('idle');
+                };
+
+                this.recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('transcript').innerText = transcript;
+                    if (event.results[0].isFinal) {
+                        this.respond(transcript.toLowerCase());
+                    }
+                };
+            }
+
+            updateAndroidLanguage() {
+                if (window.AndroidJarvis && window.AndroidJarvis.setLanguage) {
+                    window.AndroidJarvis.setLanguage(this.language);
+                }
+            }
+
+            toggleListening() {
+                if (this.isListening) {
+                    this.recognition.stop();
+                } else {
+                    this.recognition.start();
+                }
+            }
+
+            updateUI(state) {
+                const circle = document.getElementById('voiceCircle');
+                const status = document.getElementById('status');
+                if (state === 'listening') {
+                    circle.classList.add('listening');
+                    status.innerText = 'सुन रहा हूँ...';
+                } else {
+                    circle.classList.remove('listening');
+                    status.innerText = 'बोलने के लिए टैप करें';
+                }
+            }
+
+            respond(text) {
+                // In the real app, this calls Gemini. 
+                // In this local shell, we just use a placeholder or basic logic.
+                let reply = "क्षमा करें, मुझे समझ नहीं आया।";
+                
+                if (text.includes("hello") || text.includes("नमस्ते")) {
+                    reply = "नमस्ते सर! मैं आपकी क्या सेवा कर सकता हूँ?";
+                } else if (text.includes("समय") || text.includes("time")) {
+                    reply = "अभी समय है " + new Date().toLocaleTimeString();
+                } else if (text.includes("tum kaun ho")) {
+                    reply = "मैं जार्विस हूँ, आपका पर्सनल स्मार्ट असिस्टेंट।";
+                }
+
+                document.getElementById('response').innerText = reply;
+                this.speak(reply);
+            }
+
+            speak(msg) {
+                if (window.AndroidJarvis && window.AndroidJarvis.speak) {
+                    window.AndroidJarvis.speak(msg);
+                } else {
+                    const speech = new SpeechSynthesisUtterance(msg);
+                    speech.lang = this.language;
+                    window.speechSynthesis.speak(speech);
+                }
+            }
+        }
+
+        const jarvis = new JarvisAssistant();
+    </script>
+</body>
+</html>

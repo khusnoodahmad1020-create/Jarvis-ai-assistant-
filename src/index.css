@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* -----------------------------------------------------------
+   VERONICA ORBITAL CONTAINER PROTOCOL - CSS KEYFRAME ANIMATIONS
+   ----------------------------------------------------------- */
+
+/* Orbital Container Descent and Atmospheric Entry */
+@keyframes veronica-descent {
+  0% {
+    transform: translateY(-140%) scale(0.65);
+    opacity: 0;
+    filter: brightness(2.2) drop-shadow(0 0 35px rgba(245, 158, 11, 0.9));
+  }
+  55% {
+    transform: translateY(4%) scale(1.02);
+    opacity: 1;
+    filter: brightness(1.25);
+  }
+  75% {
+    transform: translateY(-2%) scale(0.99);
+  }
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+    filter: brightness(1);
+  }
+}
+
+/* Retro-Thruster Exhaust Plume Burn */
+@keyframes veronica-thruster-burn {
+  0%, 100% {
+    height: 28px;
+    opacity: 0.85;
+    transform: scaleX(1);
+  }
+  50% {
+    height: 48px;
+    opacity: 1;
+    transform: scaleX(1.3);
+    filter: drop-shadow(0 0 22px rgba(245, 158, 11, 1));
+  }
+}
+
+/* Heavy Ballistic Left Blast Door Unlocking */
+@keyframes veronica-door-left-unlock {
+  0%, 38% {
+    transform: translateX(0);
+  }
+  68%, 100% {
+    transform: translateX(-92%);
+    opacity: 0.3;
+  }
+}
+
+/* Heavy Ballistic Right Blast Door Unlocking */
+@keyframes veronica-door-right-unlock {
+  0%, 38% {
+    transform: translateX(0);
+  }
+  68%, 100% {
+    transform: translateX(92%);
+    opacity: 0.3;
+  }
+}
+
+/* Hydraulic Clamps Disengaging */
+@keyframes veronica-clamp-top-release {
+  0%, 28% {
+    transform: translateY(0);
+  }
+  52%, 100% {
+    transform: translateY(-14px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes veronica-clamp-bottom-release {
+  0%, 28% {
+    transform: translateY(0);
+  }
+  52%, 100% {
+    transform: translateY(14px);
+    opacity: 0.4;
+  }
+}
+
+/* Internal Hulkbuster Power Core Reveal */
+@keyframes veronica-core-ignition {
+  0%, 42% {
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(4px);
+  }
+  74% {
+    opacity: 1;
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.95));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.8));
+  }
+}
+
+/* Pneumatic Depressurization Steam Venting */
+@keyframes veronica-steam-vent {
+  0%, 36% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  48% {
+    opacity: 0.9;
+    transform: translateY(-18px) scale(1.3);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-42px) scale(2.4);
+    filter: blur(8px);
+  }
+}
+
+/* Atmospheric Entry Shockwave */
+@keyframes veronica-shockwave {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Tactical Diagnostic Scan Beam */
+@keyframes veronica-scan-beam {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  20%, 80% {
+    opacity: 0.85;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-veronica-descent {
+  animation: veronica-descent 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-veronica-thruster {
+  animation: veronica-thruster-burn 0.35s ease-in-out infinite;
+}
+
+.animate-veronica-door-left {
+  animation: veronica-door-left-unlock 3.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-veronica-door-right {
+  animation: veronica-door-right-unlock 3.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-veronica-clamp-top {
+  animation: veronica-clamp-top-release 3.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-veronica-clamp-bottom {
+  animation: veronica-clamp-bottom-release 3.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-veronica-core {
+  animation: veronica-core-ignition 3.8s ease-out forwards;
+}
+
+.animate-veronica-steam {
+  animation: veronica-steam-vent 2.2s ease-out infinite;
+}
+
+.animate-veronica-shockwave {
+  animation: veronica-shockwave 1.4s ease-out infinite;
+}
+
+.animate-veronica-scan {
+  animation: veronica-scan-beam 2.4s ease-in-out infinite;
+}

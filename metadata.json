@@ -1,0 +1,6 @@
+{
+  "name": "Jarvis AI Assistant",
+  "description": "An authentic Iron Man Stark Industries J.A.R.V.I.S. HUD voice assistant featuring Arc Reactor core, suit diagnostics, 3-day weather forecasting, and autonomous subroutines.",
+  "requestFramePermissions": ["microphone", "screen-wake-lock"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
